@@ -1,8 +1,60 @@
 <html>
 <head>
-	<title></title>
+	<title>Contact List</title>
+	<script src="./javascsripts/jquery.js"></script>
+	<script src='./javascsripts/underscore.js'></script>
+	<script src='./javascsripts/backbone.js'></script>
+	<script src='./javascsripts/scripts.js'></script>
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script type="text/template" id="contact">
+
+	<a href="#/<%=contact.id%>"><%=contact.name%></a>
+	</script>
+	<link href="/stylesheets/styles.css" rel="stylesheet">
 </head>
 <body>
+	<div class="row">
 
-</body>
-</html>
+		<div class="form col-mod-12">
+			<form class="form-inline addcontact" role="form">
+				<input type="text" class="form-control" placeholder="Contact Name" id="contactname">
+				<input type="text" class="form-control" placeholder="Contact Age" id="age">
+				<input type="text" class="form-control" placeholder="Contact Address" id="address">
+				<input type="text" class="form-control" placeholder="Contact Phone Number" id="phone">
+				<input type="text" class="form-control" placeholder="Contact Picture URL" id="picture">
+				<select class="form-control" id="category">
+					<option value="3">Friends</option>
+					<option value="4">Frenimies</option>
+					<option value="5">Joes</option>
+				</select>
+				<button type="button" class="btn btn-primary" id="addcontact" value="hahahahah">Add Contact</button>
+			</form>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+
+			<section class="friends col-md-4">
+				<h2>Friends</h2>
+				<ul id="friends" class="lists">
+				</ul>
+			</section>
+			<section class="frenemies col-md-4">
+				<h2>Frenemies</h2>
+				<ul id="frenemies" class="lists">
+				</ul>
+			</section>
+			<section class="joes col-md-4">
+				<h2>Joes</h2>
+				<ul id="joes" class="lists">
+				</ul>
+			</div>
+		</div>
+	</body>
+	</html>
+
+
