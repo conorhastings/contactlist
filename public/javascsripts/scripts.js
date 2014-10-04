@@ -2,25 +2,103 @@
 var ContactView = Backbone.View.extend({
 	tagName:"li",
 	events: {
+
+		'click': 'viewContact'
+
 		
 	},
-	initialize: function(){
 
+	viewContact:function(){
+		var thisContact = this.model
+		var modalView = new ModalView({model: thisContact})
+		$('.editContact').on('click', function(){
+			console.log(thisContact.attributes.phone_number)
+			
+			var editPhone = $('.modalPhone').text()
+			var editName = $('.modalName').text()
+			var editAddress = $('.modalAddress').text()
+			var editAge = $('.modalAge').text()
+			$('.modalPhone').html('<input type="text" value="'+editPhone+'"">')
+			$('.modalName').html('<input type="text" value="'+editName+'"">')
+			$('.modalAge').html('<input type="text" value="'+editAge+'"">')
+			$('.modalAddress').html('<input type="text" value="'+editAddress+'"">')
+
+			$('.saveChanges').on('click', function(){
+				console.log($('.modalPhone').text())
+				thisContact.set('phone_number', $('.modalPhone').children()[0].value)
+				thisContact.set('address', $('.modalAddress').children()[0].value)
+				thisContact.set('name', $('.modalName').children()[0].value)
+				thisContact.set('age', $('.modalAge').children()[0].value)
+
+				thisContact.save()
+				$('.modalPhone').html($('.modalPhone').children()[0].value)
+				$('.modalName').html($('.modalName').children()[0].value)
+				$('.modalAge').html($('.modalAge').children()[0].value)
+				$('.modalAddress').html($('.modalAddress').children()[0].value)
+						// $('.modalPhone').children()[0].value
+					})
+
+
+
+
+
+		})
+
+
+},
+
+
+initialize: function(){
+	console.log()
+	this.listenTo(this.model, 'change', this.render)
+	this.listenTo(this.model, 'destroy', this.remove)
+
+	this.template = _.template($('#contact').html())
+	this.render()
+
+},
+
+render:function(){
+
+	var myTemplate = this.template({contact: this.model.toJSON()})
+	this.$el.html(myTemplate);
+
+}
+})
+
+var ModalView = Backbone.View.extend({
+	tagName:"div",
+	events: {
+		'click i.trash': 'delete'
+		
+
+	},
+
+	delete:function(){
+		console.log(this.model)
+		this.model.destroy()
+	},
+	
+	initialize: function(){
+		this.template = _.template($('#modalTemplate').html())
 		this.listenTo(this.model, 'change', this.render)
 		this.listenTo(this.model, 'destroy', this.remove)
-		
-		this.template = _.template($('#contact').html())
 		this.render()
 		
 	},
 
 	render:function(){
-		
+		console.log(this.model)
 		var myTemplate = this.template({contact: this.model.toJSON()})
 		this.$el.html(myTemplate);
+		$('.modal-content').empty()
+		$('.modal-content').append(this.$el)
 
 	}
 })
+
+
+
 
 var ContactModel = Backbone.Model.extend({
 	urlRoot: '/contacts'
@@ -68,26 +146,26 @@ var CategoryListView = Backbone.View.extend({
 
 })
 
-
-
-
-
-
-
 $(function(){
 	var friendsCollection = new ContactCollection() 
-	// var frenemiesCollection = new ContactCollection()
-	// var joesCollection = new ContactCollection()
-
-	var listView = new CategoryListView({collection: friendsCollection, el:'#friends', filter:3})
-	var listView2 = new CategoryListView({collection: friendsCollection, el: '#frenemies', filter:4})	
-	var listView3 = new CategoryListView({collection: friendsCollection, el: '#joes', filter:5})	
 
 
-	// friendsCollection.add(contact)
-	// friendsCollection.add(contact2)
+	var listView = new CategoryListView({collection: friendsCollection, el:'#3', filter:3})
+	var listView2 = new CategoryListView({collection: friendsCollection, el: '#4', filter:4})	
+	var listView3 = new CategoryListView({collection: friendsCollection, el: '#5', filter:5})	
+
+
+
 
 	$('#addcontact').on('click', function(){
+		$('#contactname').css('backgroundColor', '#fff')
+		$('#age').css('backgroundColor', "#fff")
+		$('#address').css('backgroundColor', "#fff")
+		$('#picture').css('backgroundColor', "#fff")
+		$('#phone').css('backgroundColor', "#fff")
+
+
+
 		var name = $('#contactname').val()
 		var age = $('#age').val()
 		var address = $('#address').val()
@@ -111,8 +189,8 @@ $(function(){
 					children[i].style.backgroundColor='#F4A7B9';
 				}		
 
-		}
-	}else{
+			}
+		}else{
 			
 			contact.save()
 			friendsCollection.add(contact)
@@ -121,10 +199,46 @@ $(function(){
 
 	})
 
-	$('#friends, #frenemies, #joes').sortable({connectWith:'.lists'}).disableSelection();
+$('.friends, .frenemies, .joes').sortable({connectWith:'.lists'}).disableSelection();
+$('.friends, .frenemies, .joes').on('sortupdate',function(event, ui){
+
+	var thisContactId = ui.item.children()[0].id
+	var thisContact = friendsCollection.get(thisContactId)
+	thisContact.set('category_id', parseInt(event.target.id))
+	thisContact.save()
 
 
 
+
+})
+
+$('#toggleButton').click(function() {
+	$( ".form" ).toggle("slide");
+	$('.toggleForm').toggle()
+});
+$('#removeForm').click(function() {
+	$( ".form" ).toggle("slide");
+	setTimeout(function(){
+		$('.toggleForm').toggle()
+	},350)
+});
+
+var first = false;
+
+$('.searchForm').on('keyup', function(){
+
+	if(first==false){
+		$('.contactLists').toggle("fade")
+		first=true;
+	}
+	if($('.searchForm').val().length == 0){
+		first = false
+			$('.contactLists').toggle("fade")
+	}
+
+
+
+})
 
 })
 

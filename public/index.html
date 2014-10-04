@@ -12,14 +12,52 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<script type="text/template" id="contact">
 
-	<a href="#/<%=contact.id%>"><%=contact.name%></a>
+<a href="#/<%=contact.id%>" data-toggle="modal" data-target="#basicModal" class="contactinfo" id="<%=contact.id%>"><%=contact.name%></a>
 	</script>
+	<script type="text/template" id="modalTemplate">
+	
+	<div class="modal-header">
+					
+				<h4 class="modal-title modalName" id="myModalLabel"><%=contact.name%></h4>
+			</div>
+			<div class="modal-body">
+	<ul>
+	<li>Age:<span class="modalAge"> <%=contact.age%></span></li>
+	<li>Address:<span class="modalAddress"><%=contact.address%></span></li>
+	<li>Phone: <span class="modalPhone"> <%=contact.phone_number%></span></li>
+	</ul>
+	</div>
+		<div class="modal-footer">
+				<i class ="fa fa-trash fa-3x trash" data-dismiss="modal"></i>
+				<button type="button" class="btn btn-default editContact">Edit Contact Info</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary saveChanges">Save changes</button>
+		</div>
+	</script>
+
+
+
+
+
 	<link href="/stylesheets/styles.css" rel="stylesheet">
 </head>
 <body>
+	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			
+			</div>
+		</div>
+	</div>
 	<div class="row">
+		<div class="toggleForm col-md-4">
+			<i class="fa fa-plus-circle fa-3x" id="toggleButton"></i>
+			
+			<input type="text" class="searchForm" placeholder="Search Contacts" id="searchForm">
 
-		<div class="form col-mod-12">
+		</div>
+	</div>
+		<div class="form col-mod-12" style="display:none;">
 			<form class="form-inline addcontact" role="form">
 				<input type="text" class="form-control" placeholder="Contact Name" id="contactname">
 				<input type="text" class="form-control" placeholder="Contact Age" id="age">
@@ -32,27 +70,30 @@
 					<option value="5">Joes</option>
 				</select>
 				<button type="button" class="btn btn-primary" id="addcontact" value="hahahahah">Add Contact</button>
-			</form>
-		</div>
+					<i class ="fa fa-minus-circle fa-3x" id="removeForm"></i>
+
 	</div>
 	<div class="container">
-		<div class="row">
+		<div class="row contactLists">
 
 			<section class="friends col-md-4">
 				<h2>Friends</h2>
-				<ul id="friends" class="lists">
+				<ul id="3" class="lists friends">
 				</ul>
 			</section>
 			<section class="frenemies col-md-4">
 				<h2>Frenemies</h2>
-				<ul id="frenemies" class="lists">
+				<ul id="4" class="lists frenemies">
 				</ul>
 			</section>
 			<section class="joes col-md-4">
 				<h2>Joes</h2>
-				<ul id="joes" class="lists">
+				<ul id="5" class="lists joes">
 				</ul>
 			</div>
+			<div id ="row">
+				<sectiion class="trash col-md-12">
+
 		</div>
 	</body>
 	</html>

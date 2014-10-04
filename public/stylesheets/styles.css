@@ -3,10 +3,24 @@
 .form {
 margin-top: 20px;
 padding-left:10px;
+min-height:50px;
 }
 .lists{
 	min-height:200px;
 }
 li{
 	cursor:pointer;
+}
+.trash{
+	font-size:;
+}
+.toggleForm {
+margin-top: 20px;
+padding-left:10px;
+}
+#toggleButton{
+	display:inline;
+}
+#searchForm{
+	display:inline;
 }
