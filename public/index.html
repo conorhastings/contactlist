@@ -22,9 +22,11 @@
 			</div>
 			<div class="modal-body">
 	<ul>
+	<li><img src="<%=contact.picture%>" height="80" width="80"></li>
 	<li>Age:<span class="modalAge"> <%=contact.age%></span></li>
 	<li>Address:<span class="modalAddress"><%=contact.address%></span></li>
 	<li>Phone: <span class="modalPhone"> <%=contact.phone_number%></span></li>
+	
 	</ul>
 	</div>
 		<div class="modal-footer">
@@ -42,6 +44,7 @@
 	<link href="/stylesheets/styles.css" rel="stylesheet">
 </head>
 <body>
+
 	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -49,11 +52,25 @@
 			</div>
 		</div>
 	</div>
+	      <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
 	<div class="row">
 		<div class="toggleForm col-md-4">
 			<i class="fa fa-plus-circle fa-3x" id="toggleButton"></i>
 			
-			<input type="text" class="searchForm" placeholder="Search Contacts" id="searchForm">
+
+			
+			
+			<input class="searchForm" placeholder="Search Contacts" id="searchForm">
+
+			
+			
+		</div>
+	</div>
+		<div class="row">
+		<div class="toggleMap col-md-4">
+			<i class="fa fa-map-marker fa-3x" id="mapToggle"></i>
+
 
 		</div>
 	</div>
@@ -64,6 +81,7 @@
 				<input type="text" class="form-control" placeholder="Contact Address" id="address">
 				<input type="text" class="form-control" placeholder="Contact Phone Number" id="phone">
 				<input type="text" class="form-control" placeholder="Contact Picture URL" id="picture">
+				 <input type="checkbox" class="form-control" id="randomPicture"><!-- <label class="rand">(random picture)</label> -->
 				<select class="form-control" id="category">
 					<option value="3">Friends</option>
 					<option value="4">Frenimies</option>
@@ -74,6 +92,7 @@
 
 	</div>
 	<div class="container">
+
 		<div class="row">
 			<div class="searchContainer col-md-6 col-md-offset-3">
 				<ul class="searchList">
@@ -83,17 +102,17 @@
 			</div>
 		<div class="row contactLists">
 
-			<section class="friends col-md-4">
-				<h2>Friends</h2>
+			<section class="friends col-md-4 group">
+				<h2 id="mapToggle">Friends</h2>
 				<ul id="3" class="lists friends">
 				</ul>
 			</section>
-			<section class="frenemies col-md-4">
+			<section class="frenemies col-md-4 group">
 				<h2>Frenemies</h2>
 				<ul id="4" class="lists frenemies">
 				</ul>
 			</section>
-			<section class="joes col-md-4">
+			<section class="joes col-md-4 group">
 				<h2>Joes</h2>
 				<ul id="5" class="lists joes">
 				</ul>
@@ -101,8 +120,15 @@
 			<div id ="row">
 				<sectiion class="trash col-md-12">
 
+
 		</div>
+			<div class = "theMap">
+			<div id="map-canvas"></div>
+		</div>
+
+	</div>
 	</body>
 	</html>
+
 
 

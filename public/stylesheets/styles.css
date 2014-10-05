@@ -1,13 +1,16 @@
 
+.searchContainer{
 
+}
 .form {
-margin-top: 20px;
-padding-left:10px;
-min-height:50px;
+	margin-top: 20px;
+	padding-left:10px;
+	height:50px;
 }
 .lists{
-	min-height:200px;
+	min-height:30px;
 	list-style-type: none;
+	text-align:center;
 }
 li{
 	cursor:pointer;
@@ -17,8 +20,8 @@ li{
 	font-size:;
 }
 .toggleForm {
-margin-top: 20px;
-padding-left:10px;
+	margin-top: 20px;
+	padding-left:10px;
 }
 #toggleButton{
 	display:inline;
@@ -30,3 +33,36 @@ padding-left:10px;
 	text-align:center;
 	display:none;
 }
+.container{
+	width:100%;
+	height:100%;
+}
+.toggleForm{
+	height:50px;
+}
+.group{
+	text-align: center;
+}
+#map-canvas{
+
+	height: 100%;
+	margin: 50px;
+	padding: 0px;
+}
+.rand{
+	font-size:8px;
+}
+#mapToggle{
+	padding-left:6px;
+}
+.toggleForm{
+	padding-left:16px;
+}
+.theMap{
+	display:none;
+}
+
+
+
+
+
