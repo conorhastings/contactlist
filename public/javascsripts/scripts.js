@@ -12,9 +12,9 @@ var ContactView = Backbone.View.extend({
 		var thisContact = this.model
 		var modalView = new ModalView({model: thisContact})
 		$('.editContact').on('click', function(){
-			console.log(thisContact.attributes.phone_number)
+			// console.log(thisContact.attributes.phone_number)
 			
-			var editPhone = $('.modalPhone').text()
+			var editPhone = thisContact.attributes.phone_number
 			var editName = $('.modalName').text()
 			var editAddress = $('.modalAddress').text()
 			var editAge = $('.modalAge').text()
@@ -24,17 +24,21 @@ var ContactView = Backbone.View.extend({
 			$('.modalAddress').html('<input type="text" value="'+editAddress+'"">')
 
 			$('.saveChanges').on('click', function(){
-				console.log($('.modalPhone').text())
-				thisContact.set('phone_number', $('.modalPhone').children()[0].value)
-				thisContact.set('address', $('.modalAddress').children()[0].value)
-				thisContact.set('name', $('.modalName').children()[0].value)
-				thisContact.set('age', $('.modalAge').children()[0].value)
+				var newPhone = $('.modalPhone').children()[0].value
+				var newAddress = $('.modalAddress').children()[0].value
+				var newName = $('.modalName').children()[0].value
+				var newAge = $('.modalAge').children()[0].value
 
+				thisContact.set('phone_number', newPhone)
+				thisContact.set('address', newAddress)
+				thisContact.set('name', newName)
+				thisContact.set('age', newAge)
 				thisContact.save()
-				$('.modalPhone').html($('.modalPhone').children()[0].value)
-				$('.modalName').html($('.modalName').children()[0].value)
-				$('.modalAge').html($('.modalAge').children()[0].value)
-				$('.modalAddress').html($('.modalAddress').children()[0].value)
+
+				$('.modalPhone').html(editPhone)
+				$('.modalName').html(editName)
+				$('.modalAge').html(editAddress)
+				$('.modalAddress').html(editAge)
 						// $('.modalPhone').children()[0].value
 					})
 
@@ -75,8 +79,10 @@ var ModalView = Backbone.View.extend({
 	},
 
 	delete:function(){
+		$('#basicModal').modal('hide')
 		console.log(this.model)
 		this.model.destroy()
+
 	},
 	
 	initialize: function(){
@@ -123,14 +129,16 @@ var CategoryListView = Backbone.View.extend({
 	// id: 'friends',
 
 	initialize: function(options){
+
 		this.filter = options.filter
+		console.log(this.$el)
 		this.listenTo(this.collection, "add", this.addOne)
 		this.collection.fetch()
 
 		
 	},
 	addOne: function(item){
-
+		console.log(this.filter=="search")
 		if(item.attributes.category_id == this.filter){
 			
 			var view = new ContactView({model: item})
@@ -138,11 +146,14 @@ var CategoryListView = Backbone.View.extend({
 			
 
 			this.$el.append(view.el)
+		}if(this.filter == "search"){
 
+			var view = new ContactView({model: item})
+			view.render()
+			this.$el.append(view.el)
 
-		// $('#friends').append(view.el)
+		}
 	}
-}
 
 })
 
@@ -225,17 +236,48 @@ $('#removeForm').click(function() {
 
 var first = false;
 
-$('.searchForm').on('keyup', function(){
+$('.searchForm').on('keyup', function(e){
 
 	if(first==false){
 		$('.contactLists').toggle("fade")
+		$('.searchList').toggle()
 		first=true;
 	}
 	if($('.searchForm').val().length == 0){
 		first = false
-			$('.contactLists').toggle("fade")
+		$('.contactLists').toggle("fade")
+		$('.searchList').toggle()
 	}
+	$('.searchList').empty()
+	var filteredContact = new ContactCollection;
+	filteredContact.fetch().done(function(){
+		filteredContact.forEach(function(contact){
+			if(contact.attributes.name.indexOf($('.searchForm').val()) != -1){
+				console.log(contact.attributes.name.indexOf($('.searchForm').val()))
+				var view = new ContactView({model: contact})
+				
+				view.render()
+				console.log(e.keyCode)
+				if(e.keyCode != 16){
+					$('.searchList').append(view.el)
+				}
+			}
+		})
 
+	})
+
+	// $.get('/contacts').done(function(response){
+	// 	response.forEach(function(contact){
+	// 		console.log(contact.name)
+	// 		if(contact.name.indexOf($('.searchForm').val()) != -1){
+	// 			$('.searchList').append('<li>'+contact.name+'</li>')
+
+
+	// 		}
+
+
+	// 	})
+	// })
 
 
 })
