@@ -9,37 +9,45 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
 	<script type="text/template" id="contact">
 
-<a href="#/<%=contact.id%>" data-toggle="modal" data-target="#basicModal" class="contactinfo" id="<%=contact.id%>"><%=contact.name%></a>
+	<a href="#/<%=contact.id%>" data-toggle="modal" data-target="#basicModal" class="contactinfo" id="<%=contact.id%>"><%=contact.name%></a>
 	</script>
 	<script type="text/template" id="modalTemplate">
 	
 	<div class="modal-header">
-					
-				<h4 class="modal-title modalName" id="myModalLabel"><%=contact.name%></h4>
-			</div>
-			<div class="modal-body">
+
+	<h4 class="modal-title modalName" id="myModalLabel"><%=contact.name%></h4>
+	</div>
+	<div class="modal-body">
 	<ul>
 	<li><img src="<%=contact.picture%>" height="80" width="80"></li>
 	<li>Age:<span class="modalAge"> <%=contact.age%></span></li>
-	<li>Address:<span class="modalAddress"><%=contact.address%></span></li>
+	
 	<li>Phone: <span class="modalPhone"> <%=contact.phone_number%></span></li>
+	<li>Address:<span class="modalAddress"><%=contact.address%></span></li>
+	<li><div id ="map-canvas2"></div></li>
+	<li><br><%if(contact.hipchat){%> <textarea id='sendHipchat' class='form-control'>Send contact a hipchat message</textarea><br><button class="sendTheHipchat btn btn-default">Send hipchat</button><%}%><br>
+	<span class='hipchatSuccess'></span></li>
+
 	
 	</ul>
 	</div>
-		<div class="modal-footer">
-				<i class ="fa fa-trash fa-3x trash" data-dismiss="modal"></i>
-				<button type="button" class="btn btn-default editContact">Edit Contact Info</button>
-					<button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary saveChanges">Save changes</button>
-		</div>
+	<div class="modal-footer">
+	<i class ="fa fa-trash fa-3x trash" data-dismiss="modal"></i>
+	<button type="button" class="btn btn-default editContact">Edit Contact Info</button>
+	<button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>
+	<button type="button" class="btn btn-primary saveChanges">Save changes</button>
+
+
+	</div>
 	</script>
 
 
 
 
+	<link href="/stylesheets/bootstrap-min.css" rel="stylesheet">
 
 	<link href="/stylesheets/styles.css" rel="stylesheet">
 </head>
@@ -48,11 +56,11 @@
 	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-			
+
 			</div>
 		</div>
 	</div>
-	      <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
 	<div class="row">
 		<div class="toggleForm col-md-4">
@@ -67,68 +75,72 @@
 			
 		</div>
 	</div>
-		<div class="row">
+	<div class="row">
 		<div class="toggleMap col-md-4">
 			<i class="fa fa-map-marker fa-3x" id="mapToggle"></i>
 
 
 		</div>
 	</div>
-		<div class="form col-mod-12" style="display:none;">
-			<form class="form-inline addcontact" role="form">
-				<input type="text" class="form-control" placeholder="Contact Name" id="contactname">
-				<input type="text" class="form-control" placeholder="Contact Age" id="age">
-				<input type="text" class="form-control" placeholder="Contact Address" id="address">
-				<input type="text" class="form-control" placeholder="Contact Phone Number" id="phone">
-				<input type="text" class="form-control" placeholder="Contact Picture URL" id="picture">
-				 <input type="checkbox" class="form-control" id="randomPicture"><!-- <label class="rand">(random picture)</label> -->
-				<select class="form-control" id="category">
-					<option value="3">Friends</option>
-					<option value="4">Frenimies</option>
-					<option value="5">Joes</option>
-				</select>
-				<button type="button" class="btn btn-primary" id="addcontact" value="hahahahah">Add Contact</button>
-					<i class ="fa fa-minus-circle fa-3x" id="removeForm"></i>
+	<div class="form col-md-12" style="display:none;">
+		<form class="form-inline addcontact" role="form">
 
-	</div>
-	<div class="container">
+			<input type="text" class="f " placeholder="Contact Name" id="contactname">
+			
+			<input type="text" class="f " placeholder="Contact Age" id="age">
 
-		<div class="row">
-			<div class="searchContainer col-md-6 col-md-offset-3">
-				<ul class="searchList">
-					<li>Hello</li>
-					<li>Hello</li>
-				</ul>
-			</div>
-		<div class="row contactLists">
-
-			<section class="friends col-md-4 group">
-				<h2 id="mapToggle">Friends</h2>
-				<ul id="3" class="lists friends">
-				</ul>
-			</section>
-			<section class="frenemies col-md-4 group">
-				<h2>Frenemies</h2>
-				<ul id="4" class="lists frenemies">
-				</ul>
-			</section>
-			<section class="joes col-md-4 group">
-				<h2>Joes</h2>
-				<ul id="5" class="lists joes">
-				</ul>
-			</div>
-			<div id ="row">
-				<sectiion class="trash col-md-12">
-
+			<input type="text" class="f " placeholder="Contact Address" id="address">
+			<input type="text" class="f" placeholder="Contact Phone Number" id="phone">
+			<input type="text" class="f" placeholder="Contact Picture URL" id="picture">
+			<input type="checkbox" class="" id="randomPicture"><!-- <label class="rand">(random picture)</label> -->
+			<input type="text" class="f" placeholder="Hipchat ID" id="hipchat">
+			<select class="form-control" id="category">
+				<option value="3">Friends</option>
+				<option value="4">Frenimies</option>
+				<option value="5">Joes</option>
+			</select>
+			<button type="button" class="btn btn-primary" id="addcontact" value="hahahahah">Add Contact</button>
+			<i class ="fa fa-minus-circle fa-3x" id="removeForm"></i>
 
 		</div>
-			<div class = "theMap">
-			<div id="map-canvas"></div>
-		</div>
+		<div class="container">
+				<div class = "theMap">
+							<div id="map-canvas"></div>
+						</div>
+			<div class="row">
+				<div class="searchContainer col-md-6 col-md-offset-3">
+					<ul class="searchList">
+						<li>Hello</li>
+						<li>Hello</li>
+					</ul>
+				</div>
+				<div class="row contactLists">
 
-	</div>
-	</body>
-	</html>
+					<section class="friends col-md-8 col-md-offset-2 group">
+						<h2 id="mapToggle">Friends</h2>
+						<ul id="3" class="lists friends">
+						</ul>
+					</section>
+					<section class="frenemies col-md-8 col-md-offset-2  group">
+						<h2>Frenemies</h2>
+						<ul id="4" class="lists frenemies">
+						</ul>
+					</section>
+					<section class="joes col-md-8 col-md-offset-2  group">
+						<h2>Joes</h2>
+						<ul id="5" class="lists joes">
+						</ul>
+					</div>
+					<div id ="row">
+						<sectiion class="trash col-md-2 col-md-offset-1">
+
+
+						</div>
+					
+
+					</div>
+				</body>
+				</html>
 
 
 

@@ -3,6 +3,8 @@ require_relative './db/connection'
 require_relative './lib/category'
 require_relative './lib/contact'
 require 'active_support'
+require 'httparty'
+require 'hipchat'
 
 after do
   ActiveRecord::Base.connection.close
@@ -66,6 +68,19 @@ delete("/contacts/:id") do
 
   contact.to_json
 end
+
+post('/sendhipchat') do
+  hipchat_id=params["id"].to_i
+  message = params["message"]
+  puts params
+  client = HipChat::Client.new('Yp8VKsihUBBKz55v2DvP7nP00fPiMC1uarHnxVlp', :api_version => 'v2')
+  client.user(hipchat_id).send(message)
+
+
+  {response: "message sent"}.to_json
+
+end
+
 
 def category_params(params)
   params.slice(*Category.column_names)

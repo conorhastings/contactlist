@@ -42,7 +42,8 @@ var ModalView = Backbone.View.extend({
 		'click i.trash': 'delete',
 		'click button.editContact': 'editContact',
 		'click button.saveChanges': 'saveChanges',
-		'event binding' : 'function'
+		'event binding' : 'function',
+		'click button.sendTheHipchat': 'sendHipchat'
 		
 
 	},
@@ -61,10 +62,10 @@ var ModalView = Backbone.View.extend({
 		var editName = $('.modalName').text()
 		var editAddress = $('.modalAddress').text()
 		var editAge = $('.modalAge').text()
-		$('.modalPhone').html('<input type="text" value="'+editPhone+'"">')
-		$('.modalName').html('<input type="text" value="'+editName+'"">')
-		$('.modalAge').html('<input type="text" value="'+editAge+'"">')
-		$('.modalAddress').html('<input type="text" value="'+editAddress+'"">')
+		$('.modalPhone').html('<input type="text" class="form-control" value="'+editPhone+'"">')
+		$('.modalName').html('<input type="text" class="form-control" value="'+editName+'"">')
+		$('.modalAge').html('<input type="text" class="form-control" value="'+editAge+'"">')
+		$('.modalAddress').html('<input type="text" class="form-control" value="'+editAddress+'"">')
 
 	},
 
@@ -86,6 +87,20 @@ var ModalView = Backbone.View.extend({
 
 	},
 
+	sendHipchat: function(){
+		$.post('/sendhipchat',{id:this.model.attributes.hipchat, message:$('#sendHipchat').val()}).done(function(){
+			$('.hipchatSuccess').html('<h4>Hipchat successfully sent</h4>')
+			$('#sendHipchat').val('Send contact a hipchat message')
+			
+			setTimeout(function(){
+				console.log('hello')
+				$('.hipchatSuccess').html('')
+			}, 2000)
+		})
+
+
+	},
+
 	initialize: function(){
 		this.template = _.template($('#modalTemplate').html())
 		this.listenTo(this.model, 'change', this.render)
@@ -96,12 +111,43 @@ var ModalView = Backbone.View.extend({
 	},
 
 	render:function(){
-		console.log(this.delegateEvents())
 
 		var myTemplate = this.template({contact: this.model.toJSON()})
 		this.$el.html(myTemplate);
 		$('.modal-content').empty()
 		$('.modal-content').append(this.$el)
+		var contactAddress = this.model.attributes.address
+		var geocoder = new google.maps.Geocoder()
+		geocoder.geocode( {'address': this.model.attributes.address}, function(results, status){
+			var lattitude = results[0].geometry.location.k
+			var longitude = results[0].geometry.location.B
+			var myLatlng = new google.maps.LatLng(lattitude,longitude);
+			var infowindow = new google.maps.InfoWindow();
+			var mapOptions = {
+				zoom:14,
+				center:myLatlng
+			}
+			var map = new google.maps.Map(document.getElementById("map-canvas2"), mapOptions);
+
+			var marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				title: contactAddress
+			});
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.setContent(this.title);
+				infowindow.open(map, this);
+
+			})
+
+
+			$("#basicModal").on("shown.bs.modal", function () {
+
+				google.maps.event.trigger(map, "resize");
+				map.setCenter(myLatlng);
+			});
+
+		})
 		this.delegateEvents()
 	}
 })
@@ -187,9 +233,10 @@ $(function(){
 
 		var picture = $('#picture').val()
 		var category = $('#category').val()
+		var hipchat = $('#hipchat').val()
 		var contact = new ContactModel
-		
-		
+
+
 		$.get('http://api.randomuser.me').done(function(response){
 			if($('#randomPicture').is(':checked') == true){
 				var image = response.results[0].user.picture.thumbnail
@@ -202,24 +249,37 @@ $(function(){
 			contact.set('address', address)
 			contact.set('phone_number', phone)
 			contact.set('category_id', category)
+			contact.set('hipchat', hipchat)
 			if(name =='' || age == '' || address == '' || phone == ''){
 				var children = $('.addcontact').children()
 
 				for(var i = 0;  i < children.length; i++){
 					if(children[i].value=='')
 					{
-						children[i].style.backgroundColor='#F4A7B9';
-					}		
+						if(children[i].id == "hipchat"){
+									//do nothing
+								}else if(children[i].id == "picture"){
+									//do nothing
+								}else{
+									children[i].style.backgroundColor='#F4A7B9';
+								}
+							}		
 
-				}
-			}else{
+						}
+					}else{
 
-				contact.save()
-				friendsCollection.add(contact)
-			}
+						contact.save()
+						friendsCollection.add(contact)
+						$('#contactname').val('')
+						$('#age').val('')
+						$('#address').val('')
+						$('#phone').val('')
+						$('#picture').val('')
+						$('#hipchat').val('')
+					}
 
-		})
-	})
+				})
+})
 
 $('.friends, .frenemies, .joes').sortable({connectWith:'.lists'}).disableSelection();
 $('.friends, .frenemies, .joes').on('sortupdate',function(event, ui){
@@ -295,7 +355,7 @@ function initializeMap()
 	friendsCollection.fetch().done(function(){
 		var map =  new google.maps.Map(document.getElementById('map-canvas'));
 		var bounds = new google.maps.LatLngBounds();
-		var infowindow = new google.maps.InfoWindow();
+		
 		var geocoder = new google.maps.Geocoder()
 		friendsCollection.forEach(function(friend){
 			console.log(friend.attributes)
@@ -325,17 +385,31 @@ function initializeMap()
 		})
 		setTimeout(function(){
 			map.fitBounds(bounds);
-		}, 200)
+		}, 300)
 
 
 	})
 }
 
-
+var mapOut = false;
 $('#mapToggle').on('click', function(){
-		$('.theMap').toggle()
-		initializeMap()
-	})
+	$('.theMap').toggle('slide')
+	if(mapOut == false){
+		$('.contactLists').toggle()
+		mapOut = true;
+	}
+	else if(mapOut == true){
+		setTimeout(function(){
+			$('.contactLists').toggle()
+
+			mapOut = false;
+
+
+		},400)
+	}
+
+	initializeMap()
+})
 
 
 })
