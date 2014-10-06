@@ -1,12 +1,13 @@
  require 'sinatra'
-require_relative './db/connection'
-require_relative './lib/category'
-require_relative './lib/contact'
-require 'active_support'
-require 'httparty'
-require 'hipchat'
+ require_relative './db/connection'
+ require_relative './lib/category'
+ require_relative './lib/contact'
+ require 'active_support'
+ require 'httparty'
+ require 'hipchat'
+ require 'twilio-ruby'
 
-after do
+ after do
   ActiveRecord::Base.connection.close
 end
 
@@ -72,13 +73,26 @@ end
 post('/sendhipchat') do
   hipchat_id=params["id"].to_i
   message = params["message"]
-  puts params
   client = HipChat::Client.new('Yp8VKsihUBBKz55v2DvP7nP00fPiMC1uarHnxVlp', :api_version => 'v2')
   client.user(hipchat_id).send(message)
 
 
   {response: "message sent"}.to_json
 
+end
+
+post('/sendtext') do
+  account_sid = 'ACad9e9341b5926f0c3a1954df501f0018' 
+  auth_token = 'b31d874d9f364a6c7a3d9b300b227cab' 
+
+client = Twilio::REST::Client.new account_sid, auth_token 
+
+client.account.messages.create({
+  :from => '+15162104262', 
+  :to => params["number"].to_i, 
+  :body => params["message"],  
+  })
+ {response: "message sent"}.to_json
 end
 
 

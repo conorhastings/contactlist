@@ -1,14 +1,14 @@
-
-.searchContainer{
-
+@import url(http://fonts.googleapis.com/css?family=IM+Fell+French+Canon:400italic);
+body{
 }
 .form {
 	margin-top: 20px;
 	padding-left:10px;
+	margin-left:10px;
 	height:50px;
 }
 .lists{
-	min-height:30px;
+	min-height:100px;
 	list-style-type: none;
 	text-align:center;
 }
@@ -41,7 +41,7 @@ li{
 	height:50px;
 }
 .group{
-	text-align: center;
+	text-align:center;
 }
 #map-canvas{
 
@@ -53,14 +53,14 @@ li{
 #map-canvas2{
 
 	height: 35%;
-	width:45%;
+	width:60%;
 	padding: 0px;
 	margin-top:4px;
 	border-radius:10px;
 
 }
 .rand{
-	font-size:8px;
+	font-size:10px;
 }
 #mapToggle{
 	padding-left:6px;
@@ -72,28 +72,44 @@ li{
 	display:none;
 }
 .f{
-	width:130px;
+	min-width: 0;
+	width:11%;
 }
+
 i:hover{
 	cursor: pointer;
 
 }
 section{
 	margin-right:10px;
-	border:1px dashed #fff;
+	border:2px outset #BCBCBC;
 	border-radius:10px;
 	font-size:15px;
 	font-weight:bold;
 	margin-top:15px;
+	background-color: #1E2024;
+
+
+}
 }
 ul{
+
 	padding:0px;
 	margin-bottom:5px;
 }
 h2{
+	font-family: 'IM Fell French Canon', serif;
+	font-style: italic;
+	font-weight:500;
 	padding:0px;
 	margin:0px;
 }
+.searchContainer{
+	font-size:15px;
+	font-weight:bold;
+}
+
+
 
 
 

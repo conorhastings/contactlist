@@ -28,7 +28,9 @@
 	<li>Phone: <span class="modalPhone"> <%=contact.phone_number%></span></li>
 	<li>Address:<span class="modalAddress"><%=contact.address%></span></li>
 	<li><div id ="map-canvas2"></div></li>
+	<li><br><textarea id='sendText' class='form-control'>Send contact a text message</textarea><br><button class="sendTheText btn btn-default">Send text</button><br>
 	<li><br><%if(contact.hipchat){%> <textarea id='sendHipchat' class='form-control'>Send contact a hipchat message</textarea><br><button class="sendTheHipchat btn btn-default">Send hipchat</button><%}%><br>
+	<span class='textSuccess'></span></li>
 	<span class='hipchatSuccess'></span></li>
 
 	
@@ -69,7 +71,7 @@
 
 			
 			
-			<input class="searchForm" placeholder="Search Contacts" id="searchForm">
+			<input class="searchForm form-control" placeholder="Search Contacts" id="searchForm">
 
 			
 			
@@ -82,18 +84,19 @@
 
 		</div>
 	</div>
+	<div class = "row">
 	<div class="form col-md-12" style="display:none;">
 		<form class="form-inline addcontact" role="form">
 
-			<input type="text" class="f " placeholder="Contact Name" id="contactname">
+			<input type="text" class="f form-control" placeholder="Contact Name" id="contactname">
 			
-			<input type="text" class="f " placeholder="Contact Age" id="age">
+			<input type="text" class="f form-control" placeholder="Contact Age" id="age">
 
-			<input type="text" class="f " placeholder="Contact Address" id="address">
-			<input type="text" class="f" placeholder="Contact Phone Number" id="phone">
-			<input type="text" class="f" placeholder="Contact Picture URL" id="picture">
-			<input type="checkbox" class="" id="randomPicture"><!-- <label class="rand">(random picture)</label> -->
-			<input type="text" class="f" placeholder="Hipchat ID" id="hipchat">
+			<input type="text" class="f form-control" placeholder="Contact Address" id="address">
+			<input type="text" class="f form-control" placeholder="Contact Phone Number" id="phone">
+			<input type="text" class="f form-control" placeholder="Contact Picture URL" id="picture">
+			<input type="checkbox" class="" id="randomPicture"><label class="rand">(random picture)</label>
+			<input type="text" class="f form-control" placeholder="Hipchat ID" id="hipchat">
 			<select class="form-control" id="category">
 				<option value="3">Friends</option>
 				<option value="4">Frenimies</option>
@@ -103,6 +106,7 @@
 			<i class ="fa fa-minus-circle fa-3x" id="removeForm"></i>
 
 		</div>
+	</div>
 		<div class="container">
 				<div class = "theMap">
 							<div id="map-canvas"></div>
@@ -117,18 +121,21 @@
 				<div class="row contactLists">
 
 					<section class="friends col-md-8 col-md-offset-2 group">
-						<h2 id="mapToggle">Friends</h2>
+						
 						<ul id="3" class="lists friends">
+							<h2 >FRIENDS</h2>
 						</ul>
 					</section>
 					<section class="frenemies col-md-8 col-md-offset-2  group">
-						<h2>Frenemies</h2>
+						
 						<ul id="4" class="lists frenemies">
+							<h2>FRENEMIES</h2>
 						</ul>
 					</section>
 					<section class="joes col-md-8 col-md-offset-2  group">
-						<h2>Joes</h2>
+						
 						<ul id="5" class="lists joes">
+							<h2>JOES</h2>
 						</ul>
 					</div>
 					<div id ="row">

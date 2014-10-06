@@ -43,14 +43,13 @@ var ModalView = Backbone.View.extend({
 		'click button.editContact': 'editContact',
 		'click button.saveChanges': 'saveChanges',
 		'event binding' : 'function',
-		'click button.sendTheHipchat': 'sendHipchat'
-		
-
+		'click button.sendTheHipchat': 'sendHipchat',
+		'click button.sendTheText': 'sendText'
 	},
 
 	delete:function(){
 		$('#basicModal').modal('hide')
-		console.log(this.model)
+
 		this.model.destroy()
 
 	},
@@ -93,8 +92,21 @@ var ModalView = Backbone.View.extend({
 			$('#sendHipchat').val('Send contact a hipchat message')
 			
 			setTimeout(function(){
-				console.log('hello')
+				
 				$('.hipchatSuccess').html('')
+			}, 2000)
+		})
+
+
+	},
+	sendText: function(){
+		$.post('/sendtext',{number:this.model.attributes.phone_number, message:$('#sendText').val()}).done(function(){
+			$('.textSuccess').html('<h4>Text successfully sent</h4>')
+			$('#sendText').val('Send contact a text message')
+			
+			setTimeout(function(){
+				
+				$('.textSuccess').html('')
 			}, 2000)
 		})
 
@@ -328,7 +340,6 @@ $('.searchForm').on('keyup', function(e){
 					var view = new ContactView({model: contact})
 
 					view.render()
-					console.log(e.keyCode)
 
 					$('.searchList').append(view.el).delay(100)
 
@@ -358,13 +369,12 @@ function initializeMap()
 		
 		var geocoder = new google.maps.Geocoder()
 		friendsCollection.forEach(function(friend){
-			console.log(friend.attributes)
+			
 
 			geocoder.geocode( {'address': friend.attributes.address}, function(results, status){
 				var lattitude = results[0].geometry.location.k
 				var longitude = results[0].geometry.location.B
 				var latlng = new google.maps.LatLng(lattitude, longitude);
-				console.log(latlng)
 				bounds.extend(latlng);
 
 				var marker = new google.maps.Marker({
@@ -377,7 +387,7 @@ function initializeMap()
 				google.maps.event.addListener(marker, 'click', function() {
 					new ModalView({model: friend})
 					$('#basicModal').modal('show')
-					console.log(this)
+
 
 				});
 			})
@@ -396,11 +406,14 @@ $('#mapToggle').on('click', function(){
 	$('.theMap').toggle('slide')
 	if(mapOut == false){
 		$('.contactLists').toggle()
+		$('#searchForm').toggle('fade')
 		mapOut = true;
 	}
 	else if(mapOut == true){
 		setTimeout(function(){
 			$('.contactLists').toggle()
+			$('#searchForm').toggle('fade')
+
 
 			mapOut = false;
 
@@ -411,9 +424,9 @@ $('#mapToggle').on('click', function(){
 	initializeMap()
 })
 
-
 })
-	//4312437987089652 , 213
+
+
 
 
 
