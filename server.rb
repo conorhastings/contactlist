@@ -1,11 +1,10 @@
  require 'sinatra'
- require_relative './db/connection'
+ require 'bundler/setup'
+ Bundler.require(:default)
+ require_relative './config/enviroments'
  require_relative './lib/category'
  require_relative './lib/contact'
- require 'active_support'
- require 'httparty'
- require 'hipchat'
- require 'twilio-ruby'
+
 
  after do
   ActiveRecord::Base.connection.close

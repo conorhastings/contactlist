@@ -10,5 +10,8 @@ CREATE TABLE contacts(
   address varchar(255),
   phone_number varchar(255),
   picture text,
-  category_id integer
+  category_id integer,
+  lattitude text,
+  longitude text,
+  hipchat integer
 );

@@ -6,5 +6,5 @@ use Rack::Parser, :content_types => {
   'application/json'  => Proc.new { |body| ::MultiJson.decode body }
 }
 
-require './server'
+require './server.rb'
 run Sinatra::Application
