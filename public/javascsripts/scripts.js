@@ -9,11 +9,7 @@ var ContactView = Backbone.View.extend({
 	},
 
 	viewContact:function(){
-		var thisContact = this.model
-		var modalView = new ModalView({model: thisContact})
-
-
-
+		var modalView = new ModalView({model: this.model})
 	},
 
 
@@ -219,6 +215,23 @@ var CategoryListView = Backbone.View.extend({
 })
 
 $(function(){
+
+	setTimeout(function(){
+
+		$('body').append('<h1><a href = "#" class="enter">CLICK TO ENTER SITE</a></h1>')
+		$('.enter').on('click', function(){
+			$('#splashvid').toggle('fade', 800)
+			$('.container').toggle('fade', 800)
+			$('.toggles').toggle('fade', 1000)
+			
+
+
+		})
+
+
+	},8500)
+
+
 	var friendsCollection = new ContactCollection() 
 
 
@@ -336,7 +349,7 @@ $('.searchForm').on('keyup', function(e){
 
 		filteredContact.fetch().done(function(){
 			filteredContact.forEach(function(contact){
-				if(contact.attributes.name.indexOf($('.searchForm').val()) != -1){
+				if(contact.attributes.name.toLowerCase().indexOf($('.searchForm').val().toLowerCase()) != -1){
 					var view = new ContactView({model: contact})
 
 					view.render()
@@ -351,7 +364,8 @@ $('.searchForm').on('keyup', function(e){
 
 })
 
-var autocomplete = [];
+var autocomplete = []
+
 friendsCollection.fetch().done(function(){
 	friendsCollection.forEach(function(contact){
 		autocomplete.push(contact.attributes.name)
@@ -369,11 +383,28 @@ function initializeMap()
 		
 		var geocoder = new google.maps.Geocoder()
 		friendsCollection.forEach(function(friend){
-			
+			var lattitude;
+			var longitude;
+			if(friend.attributes.lattitude == null){
+				geocoder.geocode( {'address': friend.attributes.address}, function(results, status){
 
-			geocoder.geocode( {'address': friend.attributes.address}, function(results, status){
-				var lattitude = results[0].geometry.location.k
-				var longitude = results[0].geometry.location.B
+					console.log('I said hello first')
+					lattitude = results[0].geometry.location.k
+					longitude = results[0].geometry.location.B
+					friend.set('lattitude', lattitude)
+					friend.set('longitude', longitude)
+					friend.save()
+
+
+
+				})
+			}else{
+				console.log('hello')
+				lattitude = friend.attributes.lattitude
+				longitude = friend.attributes.longitude
+
+			}
+			setTimeout(function(){
 				var latlng = new google.maps.LatLng(lattitude, longitude);
 				bounds.extend(latlng);
 
@@ -381,8 +412,8 @@ function initializeMap()
 					position: latlng,
 					map: map,
 					title:friend.attributes.name
-					
-				});
+
+				},200);
 
 				google.maps.event.addListener(marker, 'click', function() {
 					new ModalView({model: friend})
@@ -390,7 +421,10 @@ function initializeMap()
 
 
 				});
+
 			})
+
+
 
 		})
 		setTimeout(function(){

@@ -85,15 +85,20 @@ post('/sendtext') do
   account_sid = 'ACad9e9341b5926f0c3a1954df501f0018' 
   auth_token = 'b31d874d9f364a6c7a3d9b300b227cab' 
 
-client = Twilio::REST::Client.new account_sid, auth_token 
+  client = Twilio::REST::Client.new account_sid, auth_token 
 
-client.account.messages.create({
-  :from => '+15162104262', 
-  :to => params["number"].to_i, 
-  :body => params["message"],  
-  })
- {response: "message sent"}.to_json
+  client.account.messages.create({
+    :from => '+15162104262', 
+    :to => params["number"].to_i, 
+    :body => params["message"],  
+    })
+  {response: "message sent"}.to_json
 end
+
+
+
+
+
 
 
 def category_params(params)

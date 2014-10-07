@@ -5,6 +5,9 @@
 	<script src='./javascsripts/underscore.js'></script>
 	<script src='./javascsripts/backbone.js'></script>
 	<script src='./javascsripts/scripts.js'></script>
+
+
+	<script type="text/javascript" src="//static.twilio.com/libs/twiliojs/1.1/twilio.min.js"></script>
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -29,8 +32,9 @@
 	<li>Address:<span class="modalAddress"><%=contact.address%></span></li>
 	<li><div id ="map-canvas2"></div></li>
 	<li><br><textarea id='sendText' class='form-control'>Send contact a text message</textarea><br><button class="sendTheText btn btn-default">Send text</button><br>
+		<span class='textSuccess'></span></li>
 	<li><br><%if(contact.hipchat){%> <textarea id='sendHipchat' class='form-control'>Send contact a hipchat message</textarea><br><button class="sendTheHipchat btn btn-default">Send hipchat</button><%}%><br>
-	<span class='textSuccess'></span></li>
+	
 	<span class='hipchatSuccess'></span></li>
 
 	
@@ -52,8 +56,16 @@
 	<link href="/stylesheets/bootstrap-min.css" rel="stylesheet">
 
 	<link href="/stylesheets/styles.css" rel="stylesheet">
+		<link href="/stylesheets/bigvideo.css" rel="stylesheet">
 </head>
 <body>
+	<div id="splashvid">
+	<video  autoplay  id="bgvid" >
+  <source src="/splash.mp4" type="video/mp4">
+ 
+
+</video>
+</div>
 
 	<div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 		<div class="modal-dialog">
@@ -63,7 +75,7 @@
 		</div>
 	</div>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-
+	<div class="toggles">
 	<div class="row">
 		<div class="toggleForm col-md-4">
 			<i class="fa fa-plus-circle fa-3x" id="toggleButton"></i>
@@ -79,10 +91,11 @@
 	</div>
 	<div class="row">
 		<div class="toggleMap col-md-4">
-			<i class="fa fa-map-marker fa-3x" id="mapToggle"></i>
+			<i class="fa fa-home fa-3x" id="mapToggle"></i>
 
 
 		</div>
+	</div>
 	</div>
 	<div class = "row">
 	<div class="form col-md-12" style="display:none;">
@@ -113,29 +126,32 @@
 						</div>
 			<div class="row">
 				<div class="searchContainer col-md-6 col-md-offset-3">
+
 					<ul class="searchList">
+						<h2>Search Results</h2>
 						<li>Hello</li>
 						<li>Hello</li>
 					</ul>
 				</div>
 				<div class="row contactLists">
 
-					<section class="friends col-md-8 col-md-offset-2 group">
-						
+					<section class=" col-md-8 col-md-offset-2 group">
+								<h2>FRIENDS</h2>
 						<ul id="3" class="lists friends">
-							<h2 >FRIENDS</h2>
+
+						
 						</ul>
 					</section>
-					<section class="frenemies col-md-8 col-md-offset-2  group">
-						
+					<section class=" col-md-8 col-md-offset-2  group">
+						<h2>FRENEMIES</h2>
 						<ul id="4" class="lists frenemies">
-							<h2>FRENEMIES</h2>
+							
 						</ul>
 					</section>
-					<section class="joes col-md-8 col-md-offset-2  group">
-						
-						<ul id="5" class="lists joes">
+					<section class=" col-md-8 col-md-offset-2  group">
 							<h2>JOES</h2>
+						<ul id="5" class="lists joes">
+							
 						</ul>
 					</div>
 					<div id ="row">

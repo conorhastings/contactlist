@@ -1,5 +1,17 @@
 @import url(http://fonts.googleapis.com/css?family=IM+Fell+French+Canon:400italic);
 body{
+	}
+	video#bgvid {
+position: fixed; right: 0; bottom: 0;
+min-width: 100%; min-height: 100%;
+width: auto; height: auto; z-index: -100;
+background-size: cover;
+}
+.container{
+	display:none;
+}
+.toggles{
+	display:none;
 }
 .form {
 	margin-top: 20px;
@@ -63,7 +75,7 @@ li{
 	font-size:10px;
 }
 #mapToggle{
-	padding-left:6px;
+	padding-left:1px;
 }
 .toggleForm{
 	padding-left:16px;
@@ -81,6 +93,8 @@ i:hover{
 
 }
 section{
+/*	background-image:url('/bg.gif');
+*/
 	margin-right:10px;
 	border:2px outset #BCBCBC;
 	border-radius:10px;
@@ -103,10 +117,21 @@ h2{
 	font-weight:500;
 	padding:0px;
 	margin:0px;
+	margin-left:30px;
+
+
 }
 .searchContainer{
 	font-size:15px;
 	font-weight:bold;
+}
+.enter{
+	font-size:150px;
+	margin-top:50px;
+
+}
+.splashvid{
+	text-align:center;
 }
 
 

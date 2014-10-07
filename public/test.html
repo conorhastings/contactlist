@@ -1,26 +1,37 @@
 <html>
 <head>
 	<title>Contact List</title>
-	 <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 50px;
-        padding: 0px;
-      }
-    </style>
-   
+
 	<script src="./javascsripts/jquery.js"></script>
 	<script src='./javascsripts/underscore.js'></script>
 	<script src='./javascsripts/backbone.js'></script>
-	<script src='./javascsripts/scripts.js'></script>
 	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<script src="//cdn.WebRTC-Experiment.com/RecordRTC.js"></script>
+
+
+
 </head>
 <body>
-<div id="map-canvas"></div>
-     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+	<video autoplay></video>
+
+<script>
+  var errorCallback = function(e) {
+    console.log('Reeeejected!', e);
+  };
+
+  // Not showing vendor prefixes.
+  navigator.webkitGetUserMedia({video: true, audio: true}, function(localMediaStream) {
+    var video = document.querySelector('video');
+    video.src = window.URL.createObjectURL(localMediaStream);
+
+    
+    video.onloadedmetadata = function(e) {
+    };
+  }, errorCallback);
+</script>
+
  </body>
  </html>
+
