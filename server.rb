@@ -1,6 +1,7 @@
- require 'sinatra'
+
  require 'bundler/setup'
  Bundler.require(:default)
+  require 'sinatra'
  require_relative './config/enviroments'
  require_relative './lib/category'
  require_relative './lib/contact'
