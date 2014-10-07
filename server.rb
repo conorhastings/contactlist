@@ -1,19 +1,22 @@
 
- require 'bundler/setup'
- Bundler.require(:default)
-  require 'sinatra'
- require_relative './config/enviroments'
- require_relative './lib/category'
- require_relative './lib/contact'
+require 'bundler/setup'
+Bundler.require(:default)
+require 'sinatra'
+require_relative './config/enviroments'
+require_relative './lib/category'
+require_relative './lib/contact'
 
 
- after do
+after do
   ActiveRecord::Base.connection.close
 end
 
 before do
   content_type :json
 end
+
+get('/') do
+  File.open('./public/html')
 
 get("/categories") do
   Category.all.to_json
